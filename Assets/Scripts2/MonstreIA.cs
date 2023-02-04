@@ -9,7 +9,6 @@ public class MonstreIA : MonoBehaviour
 
     public GameObject target;
 
-    Vector3 positionEnemy;
 
 
     //Agent de Navigation
@@ -59,7 +58,6 @@ public class MonstreIA : MonoBehaviour
             }
         } else
         {
-            Debug.Log("find new target");
             SelectTarget();
         }
     }
@@ -109,7 +107,6 @@ public class MonstreIA : MonoBehaviour
     //Attack = Attaquer
     void Attack()
     {
-        Debug.Log("ATTACK");
         //Réinitialise les paramètres de l'animator
         ResetAnimation();
         //L'action est maintenant "Attack"
@@ -144,10 +141,8 @@ public class MonstreIA : MonoBehaviour
 
     public IEnumerator Reload()
     {
-        Debug.Log("need to reload");
         yield return new WaitForSeconds(reloadTime);
         isLoaded = true;
-        Debug.Log("reload ! ");
     }
 
     public void SelectTarget()
@@ -157,7 +152,6 @@ public class MonstreIA : MonoBehaviour
         foreach (Repeater _repeater in _repeatersArr)
         {
             _repeaters.Add(_repeater);
-            positionEnemy = transform.position;
         }
         float minDistance = 1000;
         foreach(Repeater _repeater in _repeaters)
