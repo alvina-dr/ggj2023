@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Rail : MonoBehaviour
 {
@@ -9,8 +10,7 @@ public class Rail : MonoBehaviour
     public Vector3Int gridPosition;
     void Start()
     {
-        //gridPosition = new Vector3Int(Mathf.RoundToInt(transform.position.x), (int)(transform.position.y), Mathf.RoundToInt(transform.position.y));
-        //Debug.Log("new rail grid position : " + (int)(transform.position.y + 0.0001f));
+        gridPosition = GPCtrl.Instance.railMap.WorldToCell(transform.position);
     }
 
     void Update()
@@ -21,5 +21,12 @@ public class Rail : MonoBehaviour
     public bool CheckIfRailActivated()
     {
         return isActivated;
+    }
+
+    public void ActivateRail()
+    {
+        transform.DOScale(1.1f, .2f);
+        transform.DOMoveY(-.2f, .2f);
+        isActivated = true;
     }
 }
