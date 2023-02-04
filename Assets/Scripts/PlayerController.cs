@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     public int railAmmoMax;
     public int railAmmo;
+    public float railReloadTime;
+    bool isLoadingRail;
 
     public int currentTool;
 
@@ -38,8 +40,7 @@ public class PlayerController : MonoBehaviour
         playerMesh.transform.position = Vector3.MoveTowards(playerMesh.transform.position, new Vector3(playerMove.transform.position.x, playerMesh.transform.position.y, playerMove.transform.position.z), Time.deltaTime * playerSpeed);
         if (playerMesh.transform.position != new Vector3(playerMove.transform.position.x, playerMesh.transform.position.y, playerMove.transform.position.z)) isMoving = true;
         else isMoving = false;
-
-        if (CheckHasActivatedRail(gridPosition)) {
+        if (CheckHasActivatedRail(new Vector3Int(gridPosition.x, -gridPosition.y))) {
             playerSpeed = playerFastSpeed;
         } else
         {
@@ -79,6 +80,12 @@ public class PlayerController : MonoBehaviour
         {
             currentTool++;
             if (currentTool >= GPCtrl.Instance.tileBaseTools.Count) currentTool = 0;
+        }
+
+        if (railAmmo < railAmmoMax && !isLoadingRail)
+        {
+            isLoadingRail = true;
+            StartCoroutine(RailReload());
         }
 
 
@@ -160,8 +167,8 @@ public class PlayerController : MonoBehaviour
         bool isActivated = false;
         for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
         {
-            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].gridPosition) == _tile)
-            { 
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
+            {
                 if (GPCtrl.Instance.rails[i].isActivated)
                 {
                     isActivated = true;
@@ -169,6 +176,13 @@ public class PlayerController : MonoBehaviour
             }
         }
         return isActivated;
+    }
+
+    public IEnumerator RailReload()
+    {
+        yield return new WaitForSeconds(railReloadTime);
+        isLoadingRail = false;
+        railAmmo++;
     }
 
 }
