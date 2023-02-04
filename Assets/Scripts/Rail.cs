@@ -26,7 +26,7 @@ public class Rail : MonoBehaviour
     public void ActivateRail()
     {
         transform.DOScale(1.1f, .2f);
-        transform.DOMoveY(-.2f, .2f);
+        transform.DOMoveY(.2f, .2f);
         isActivated = true;
     }
 }

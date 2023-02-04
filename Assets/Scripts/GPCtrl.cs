@@ -64,4 +64,12 @@ public class GPCtrl : MonoBehaviour
             Debug.Log("GAME OVER");
         }
     }
+
+    public void UpdateAllRailState()
+    {
+        foreach(Repeater r in repeaters)
+        {
+            r.DetectRails();
+        }
+    }
 }
