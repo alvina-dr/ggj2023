@@ -59,5 +59,9 @@ public class GPCtrl : MonoBehaviour
         {
             repeaters.Add(_rails[i]);
         }
+        if (repeaters.Count == 0)
+        {
+            Debug.Log("GAME OVER");
+        }
     }
 }
