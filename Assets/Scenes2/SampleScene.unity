@@ -219,10 +219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHitPoint: 5
-  hitPoint: 0
+  hitPoint: 5
   isInvulnerable: 0
   invulnerabiltyTime: 0
-  reloadTime: 0.5
 --- !u!1001 &150218546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -564,7 +563,6 @@ MonoBehaviour:
   hitPoint: 0
   isInvulnerable: 0
   invulnerabiltyTime: 0
-  reloadTime: 0.5
 --- !u!1001 &163056156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -671,7 +669,6 @@ MonoBehaviour:
   hitPoint: 0
   isInvulnerable: 0
   invulnerabiltyTime: 0
-  reloadTime: 0.5
 --- !u!1 &186610849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1019,6 @@ MonoBehaviour:
   hitPoint: 0
   isInvulnerable: 0
   invulnerabiltyTime: 0
-  reloadTime: 0.5
 --- !u!1 &285486471
 GameObject:
   m_ObjectHideFlags: 0
@@ -2904,7 +2900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.2
+      value: 21.54
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2989,7 +2985,6 @@ MonoBehaviour:
   hitPoint: 0
   isInvulnerable: 0
   invulnerabiltyTime: 0
-  reloadTime: 0.5
 --- !u!1 &2088095906
 GameObject:
   m_ObjectHideFlags: 0
@@ -4571,7 +4566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.2
+      value: 18.7
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6261,7 +6256,6 @@ MonoBehaviour:
   hitPoint: 0
   isInvulnerable: 0
   invulnerabiltyTime: 0
-  reloadTime: 0.5
 --- !u!136 &8962565352597996203
 CapsuleCollider:
   m_ObjectHideFlags: 0
