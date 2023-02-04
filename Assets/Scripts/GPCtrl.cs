@@ -22,8 +22,9 @@ public class GPCtrl : MonoBehaviour
     }
 
     public Tilemap railMap;
-    public TileBase railTile;
+    public List<TileBase> tileBaseTools = new List<TileBase>();
     public List<Rail> rails = new List<Rail>();
+    public List<Repeater> repeaters = new List<Repeater>();
 
 
     void Start()
@@ -47,6 +48,20 @@ public class GPCtrl : MonoBehaviour
         for (int i = 0; i < _rails.Length; i++)
         {
             rails.Add(_rails[i]);
+        }
+    }
+
+    public void UpdateRepeaterList()
+    {
+        repeaters.Clear();
+        Repeater[] _rails = FindObjectsOfType<Repeater>();
+        for (int i = 0; i < _rails.Length; i++)
+        {
+            repeaters.Add(_rails[i]);
+        }
+        if (repeaters.Count == 0)
+        {
+            Debug.Log("GAME OVER");
         }
     }
 }
