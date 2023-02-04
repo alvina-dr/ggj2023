@@ -295,6 +295,7 @@ MonoBehaviour:
   playerFastSpeed: 10
   playerSlowSpeed: 3
   isMoving: 0
-  railAmmoMax: 0
+  railAmmoMax: 30
   railAmmo: 0
+  railReloadTime: 10
   currentTool: 0

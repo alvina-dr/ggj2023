@@ -8,6 +8,11 @@ public class Rail : MonoBehaviour
 
     public bool isActivated = false;
     public Vector3Int gridPosition;
+    public Material activeMaterial;
+    public Material inactiveMaterial;
+
+    public MeshRenderer runeA;
+    public MeshRenderer runeB;
     void Start()
     {
         gridPosition = GPCtrl.Instance.railMap.WorldToCell(transform.position);
@@ -25,8 +30,19 @@ public class Rail : MonoBehaviour
 
     public void ActivateRail()
     {
-        transform.DOScale(1.1f, .2f);
+        //transform.DOScale(1.1f, .2f);
         transform.DOMoveY(.2f, .2f);
+        runeA.material = activeMaterial;
+        runeB.material = activeMaterial;
         isActivated = true;
+    }
+
+    public void DeactivateRail()
+    {
+        //transform.DOScale(1f, .2f);
+        transform.DOMoveY(0f, .2f);
+        runeA.material = inactiveMaterial;
+        runeB.material = inactiveMaterial;
+        isActivated = false;
     }
 }
