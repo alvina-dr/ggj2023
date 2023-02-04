@@ -9,6 +9,8 @@ public class MonstreIA : MonoBehaviour
 
     public GameObject target;
 
+    Vector3 positionEnemy;
+
 
     //Agent de Navigation
     NavMeshAgent navMeshAgent;
@@ -38,7 +40,7 @@ public class MonstreIA : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target = GameObject.FindGameObjectWithTag("Amplificateur");
+        //target = GameObject.FindGameObjectWithTag("Amplificateur");
         if (target != null)
         {
             //Est-ce que l'IA se déplace vers le joueur ?
@@ -55,6 +57,10 @@ public class MonstreIA : MonoBehaviour
                     Attack();
                 }
             }
+        } else
+        {
+            Debug.Log("find new target");
+            SelectTarget();
         }
     }
 
@@ -129,8 +135,8 @@ public class MonstreIA : MonoBehaviour
     }
     public void Shoot()
     {
-        if (target.GetComponent<ReceiveDamage>() != null) { 
-            target.GetComponent<ReceiveDamage>().hitPoint = target.GetComponent<ReceiveDamage>().hitPoint - 1;
+        if (target.GetComponent<HealthManager>() != null) { 
+            target.GetComponent<HealthManager>().GetDamage(1);
             isLoaded = false;
             StartCoroutine(Reload());
         }
@@ -144,9 +150,25 @@ public class MonstreIA : MonoBehaviour
         Debug.Log("reload ! ");
     }
 
-    //public void SelectTarget()
-    //{
-    //     FindObjectsOfType<ReceiveDamage>()
-    //        target =
-    //}
+    public void SelectTarget()
+    {
+        Repeater[] _repeatersArr = FindObjectsOfType<Repeater>();
+        List<Repeater> _repeaters = new List<Repeater>();
+        foreach (Repeater _repeater in _repeatersArr)
+        {
+            _repeaters.Add(_repeater);
+            positionEnemy = transform.position;
+        }
+        float minDistance = 1000;
+        foreach(Repeater _repeater in _repeaters)
+        {
+            float _currentDistance = Vector3.Distance(transform.position, _repeater.transform.position);
+            if (_currentDistance < minDistance) { minDistance = _currentDistance; }
+        }
+        if (_repeaters.Count == 0)
+        {
+            Debug.Log("no repeaters found");
+        }
+        target = _repeaters.Find(x => Vector3.Distance(transform.position, x.transform.position) == minDistance).gameObject;
+    }
 }

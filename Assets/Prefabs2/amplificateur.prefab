@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4333649040941258834}
   - component: {fileID: 4333649040941258837}
   - component: {fileID: 4333649040941258836}
+  - component: {fileID: 674586462741393319}
   m_Layer: 0
   m_Name: amplificateur
   m_TagString: Untagged
@@ -97,3 +98,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &674586462741393319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333649040941258839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013570d5912cd0a44ad387a3052217b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reachRepeater: 2
+  repeatedRails: []
