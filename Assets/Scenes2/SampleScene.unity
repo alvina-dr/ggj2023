@@ -218,10 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad3a3b7f391f24a80e22af1d083b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoint: 5
-  hitPoint: 5
-  isInvulnerable: 0
-  invulnerabiltyTime: 0
+  maxHealth: 5
+  currentHealth: 0
 --- !u!1001 &150218546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -559,10 +557,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad3a3b7f391f24a80e22af1d083b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoint: 5
-  hitPoint: 0
-  isInvulnerable: 0
-  invulnerabiltyTime: 0
+  maxHealth: 5
+  currentHealth: 0
 --- !u!1001 &163056156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -584,7 +580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.2
+      value: 23.24
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -665,10 +661,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad3a3b7f391f24a80e22af1d083b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoint: 5
-  hitPoint: 0
-  isInvulnerable: 0
-  invulnerabiltyTime: 0
+  maxHealth: 5
+  currentHealth: 0
 --- !u!1 &186610849
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.2
+      value: 22.65
       objectReference: {fileID: 0}
     - target: {fileID: 4333649040941258835, guid: 203f80466a91076418cfc70bbe6192d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1015,10 +1009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad3a3b7f391f24a80e22af1d083b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoint: 5
-  hitPoint: 0
-  isInvulnerable: 0
-  invulnerabiltyTime: 0
+  maxHealth: 5
+  currentHealth: 0
 --- !u!1 &285486471
 GameObject:
   m_ObjectHideFlags: 0
@@ -2981,10 +2973,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad3a3b7f391f24a80e22af1d083b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoint: 5
-  hitPoint: 0
-  isInvulnerable: 0
-  invulnerabiltyTime: 0
+  maxHealth: 5
+  currentHealth: 0
 --- !u!1 &2088095906
 GameObject:
   m_ObjectHideFlags: 0
@@ -6252,10 +6242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad3a3b7f391f24a80e22af1d083b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoint: 5
-  hitPoint: 0
-  isInvulnerable: 0
-  invulnerabiltyTime: 0
+  maxHealth: 5
+  currentHealth: 0
 --- !u!136 &8962565352597996203
 CapsuleCollider:
   m_ObjectHideFlags: 0
