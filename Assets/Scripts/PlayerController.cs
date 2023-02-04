@@ -133,14 +133,14 @@ public class PlayerController : MonoBehaviour
         bool hasTile = false;
         for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
         {
-            if (GPCtrl.Instance.rails[i].gridPosition == _tile)
+            if (GPCtrl.Instance.rails[i].transform.position == _tile)
             {
                 hasTile = true;
             }
         }
         for (int i = 0; i < GPCtrl.Instance.repeaters.Count; i++)
         {
-            if (GPCtrl.Instance.repeaters[i].gridPosition == _tile)
+            if (GPCtrl.Instance.repeaters[i].transform.position == _tile)
             {
                 hasTile = true;
             }
