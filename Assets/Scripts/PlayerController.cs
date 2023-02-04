@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     Vector2 direction;
     public bool isMoving = false;
 
+    public int railAmmoMax;
     public int railAmmo;
 
     public int currentTool;
@@ -111,6 +112,7 @@ public class PlayerController : MonoBehaviour
                     GPCtrl.Instance.repeaters.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
                 });
             }
+            GPCtrl.Instance.UpdateAllRailState();
 
         }
     }
@@ -154,7 +156,7 @@ public class PlayerController : MonoBehaviour
         bool isActivated = false;
         for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
         {
-            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].gridPosition) == _tile)
             { 
                 if (GPCtrl.Instance.rails[i].isActivated)
                 {
