@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,10 +12,14 @@ public class PlayerController : MonoBehaviour
     public GameObject playerMove;
     public GameObject playerMesh;
     public float playerSpeed;
+    public float playerFastSpeed;
+    public float playerSlowSpeed;
     Vector2 direction;
     public bool isMoving = false;
 
     public int railAmmo;
+
+    public int currentTool;
 
 
     void Start()
@@ -30,6 +35,12 @@ public class PlayerController : MonoBehaviour
         if (playerMesh.transform.position != new Vector3(playerMove.transform.position.x, playerMesh.transform.position.y, playerMove.transform.position.z)) isMoving = true;
         else isMoving = false;
 
+        if (CheckHasActivatedRail(gridPosition)) {
+            playerSpeed = playerFastSpeed;
+        } else
+        {
+            playerSpeed = playerSlowSpeed;
+        }
 
         if (Input.GetKey(KeyCode.RightArrow) && !isMoving)
         {
@@ -59,6 +70,13 @@ public class PlayerController : MonoBehaviour
         {
             BuildTile(targetTilePosition);
         }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            currentTool++;
+            if (currentTool >= GPCtrl.Instance.tileBaseTools.Count) currentTool = 0;
+        }
+
     }
 
     public void MoveTile(Vector3Int _direction)
@@ -74,33 +92,47 @@ public class PlayerController : MonoBehaviour
     public void BuildTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (!CheckHasRail(new Vector3Int(nextTile.x, -nextTile.y)))
+        if (!CheckHasObstacle(new Vector3Int(nextTile.x, -nextTile.y)))
         {
-            GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.railTile);
-            GPCtrl.Instance.UpdateRailList();
-            GPCtrl.Instance.rails.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
+            GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
+
+            if (currentTool == 0) //rails
             {
-                GPCtrl.Instance.rails.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
-            });
+                GPCtrl.Instance.UpdateRailList();
+                GPCtrl.Instance.rails.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
+                {
+                    GPCtrl.Instance.rails.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
+                });
+            } else if (currentTool == 1) //repeater
+            {
+                GPCtrl.Instance.UpdateRepeaterList();
+                GPCtrl.Instance.repeaters.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
+                {
+                    GPCtrl.Instance.repeaters.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
+                });
+            }
+
         }
     }
 
-    public bool CheckObstacle(Vector3Int _tile)
+    public bool CheckHasObstacle(Vector3Int _tile)
     {
         bool hasTile = false;
-        //for (int i = 0; i < manager.obstacleTilemaps.Count; i++)
-        //{
-        //    if (manager.obstacleTilemaps[i].HasTile(_tile))
-        //        hasTile = true;
-        //}
-        //for (int i = 0; i < manager.objects.Count; i++)
-        //{
-        //    if (Vector3Int.FloorToInt(manager.objects[i].transform.position - manager.offset) == _tile && manager.objects[i].isObstacle)
-        //    {
-        //        hasTile = true;
-        //    }
-        //}
-
+        for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
+        {
+            if (GPCtrl.Instance.rails[i].gridPosition == _tile)
+            {
+                hasTile = true;
+            }
+        }
+        for (int i = 0; i < GPCtrl.Instance.repeaters.Count; i++)
+        {
+            if (GPCtrl.Instance.repeaters[i].gridPosition == _tile)
+            {
+                hasTile = true;
+            }
+        }
+        if (hasTile == true) Debug.Log("CAN'T BUILD TILE");
         return hasTile;
     }
 
@@ -115,5 +147,21 @@ public class PlayerController : MonoBehaviour
             }
         }
         return hasTile;
+    }
+
+    public bool CheckHasActivatedRail(Vector3Int _tile)
+    {
+        bool isActivated = false;
+        for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
+        {
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
+            { 
+                if (GPCtrl.Instance.rails[i].isActivated)
+                {
+                    isActivated = true;
+                }
+            }
+        }
+        return isActivated;
     }
 }

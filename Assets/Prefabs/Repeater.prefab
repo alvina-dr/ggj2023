@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013570d5912cd0a44ad387a3052217b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reachRepeater: 5
+  repeatedRails: []
+  gridPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &3596107592574814787
 GameObject:
   m_ObjectHideFlags: 0
