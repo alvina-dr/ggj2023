@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GPCtrl : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class GPCtrl : MonoBehaviour
         }
     }
 
+    public Tilemap railMap;
+    public TileBase railTile;
     public List<Rail> rails = new List<Rail>();
 
 
@@ -35,5 +38,15 @@ public class GPCtrl : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void UpdateRailList()
+    {
+        rails.Clear();
+        Rail[] _rails = FindObjectsOfType<Rail>();
+        for (int i = 0; i < _rails.Length; i++)
+        {
+            rails.Add(_rails[i]);
+        }
     }
 }

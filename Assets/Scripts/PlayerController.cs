@@ -6,11 +6,14 @@ public class PlayerController : MonoBehaviour
 {
 
     public Vector2Int gridPosition;
+    public Vector2Int targetTilePosition;
     public GameObject playerMove;
     public GameObject playerMesh;
     public float playerSpeed;
     Vector2 direction;
     public bool isMoving = false;
+
+    public int railAmmo;
 
 
     void Start()
@@ -28,21 +31,33 @@ public class PlayerController : MonoBehaviour
 
 
         if (Input.GetKey(KeyCode.RightArrow) && !isMoving)
-            MoveTile(new Vector2Int(1, 0));
+        {
+            targetTilePosition = new Vector2Int(1, 0);
+            MoveTile(targetTilePosition);
+        }
         else if (Input.GetKey(KeyCode.LeftArrow) && !isMoving)
-            MoveTile(new Vector2Int(-1, 0));
+        {
+            targetTilePosition = new Vector2Int(-1, 0);
+            MoveTile(targetTilePosition);
+        }
         else if (Input.GetKey(KeyCode.UpArrow) && !isMoving)
-            MoveTile(new Vector2Int(0, 1));
+        {
+            targetTilePosition = new Vector2Int(0, 1);
+            MoveTile(targetTilePosition);
+        }
         else if (Input.GetKey(KeyCode.DownArrow) && !isMoving)
-            MoveTile(new Vector2Int(0, -1));
+        {
+            targetTilePosition = new Vector2Int(0, -1);
+            MoveTile(targetTilePosition);
+        } else
+        {
+            targetTilePosition = Vector2Int.zero;
+        }
 
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    Debug.Log("space appuyé");
-        //    gridPosition = new Vector2Int(gridPosition.x, gridPosition.y + 1);
-        //    playerMove.transform.position = new Vector3(gridPosition.x, 0, gridPosition.y);
-
-        //}
+        if (Input.GetKeyDown(KeyCode.Space) && direction != Vector2Int.zero)
+        {
+            BuildTile(targetTilePosition);
+        }
     }
 
     public void MoveTile(Vector2Int _direction)
@@ -52,7 +67,17 @@ public class PlayerController : MonoBehaviour
         {
             gridPosition = nextTile;
             playerMove.transform.position = new Vector3(gridPosition.x, 0, gridPosition.y);
-            //direction = _direction;
+        }
+    }
+
+    public void BuildTile(Vector2Int _direction)
+    {
+        Vector2Int nextTile = gridPosition + new Vector2Int(_direction.x, _direction.y);
+        if (!CheckHasRail(nextTile))
+        {
+            Debug.Log("SHOULD BUILD SOMETHING : " + nextTile.x + ", " + nextTile.y);
+            GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y-1, 3), GPCtrl.Instance.railTile);
+            GPCtrl.Instance.UpdateRailList();
         }
     }
 
@@ -82,6 +107,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Mathf.RoundToInt(GPCtrl.Instance.rails[i].transform.position.x-.5f) == _tile.x && Mathf.RoundToInt(GPCtrl.Instance.rails[i].transform.position.z-.5f) == _tile.y)
             {
+                Debug.Log("has rail : " + _tile);
                 hasTile = true;
             }
         }
