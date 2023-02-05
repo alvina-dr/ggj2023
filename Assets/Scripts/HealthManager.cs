@@ -33,10 +33,10 @@ public class HealthManager : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if(collision.GetComponentInParent<Projectile>() != null) 
+        if(collision.GetComponentInParent<Projectile>() != null && collision.GetComponentInParent<Projectile>().target == transform) 
         {
             GetDamage(collision.GetComponentInParent<Projectile>().damage);
-            Destroy(collision.gameObject);
+            Destroy(collision.transform.parent.gameObject);
         }
 
     }

@@ -25,10 +25,13 @@ public class GPCtrl : MonoBehaviour
     public List<TileBase> tileBaseTools = new List<TileBase>();
     public List<Rail> rails = new List<Rail>();
     public List<Repeater> repeaters = new List<Repeater>();
+    public List<InteractableObject> objectList = new List<InteractableObject>();
 
 
     void Start()
     {
+        UpdateObjectList();
+
         Rail[] _rails = FindObjectsOfType<Rail>();
         for (int i = 0; i < _rails.Length; i++)
         {
@@ -49,6 +52,16 @@ public class GPCtrl : MonoBehaviour
         for (int i = 0; i < _rails.Length; i++)
         {
             rails.Add(_rails[i]);
+        }
+    }
+
+    public void UpdateObjectList()
+    {
+        objectList.Clear();
+        InteractableObject[] _objects = FindObjectsOfType<InteractableObject>();
+        for (int i = 0; i < _objects.Length; i++)
+        {
+            objectList.Add(_objects[i]);
         }
     }
 

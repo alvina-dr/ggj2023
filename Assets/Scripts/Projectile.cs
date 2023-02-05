@@ -14,31 +14,13 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        //timeForLife += 1;
-        //if (timeForLife < lifeTime)
-        //{
-        //    transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        //}
-        //if (timeForLife >= lifeTime)
-        //{
-        //    Destroy(gameObject);
-        //}
         if (target != null) { 
             transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * 12);
             transform.LookAt(target.position);
-
         } else
         {
-            Debug.Log("target null"); 
             Destroy(gameObject);
-
         }
-
-        //if ( transform.position == target.position)
-        //{
-        //    Debug.Log("has reached point");
-        //    Destroy(gameObject);
-        //}
     }
 
 }

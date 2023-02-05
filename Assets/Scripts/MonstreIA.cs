@@ -26,29 +26,24 @@ public class MonstreIA : MonoBehaviour
 
     bool isLoaded = true;
     public float reloadTime = .5f;
+    public Projectile projectilePrefab;
+    public int damage;
 
 
-    // Start is called before the first frame update
     void Awake()
     {
-        currentAction = STAND_STATE;
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //target = GameObject.FindGameObjectWithTag("Amplificateur");
         if (target != null)
         {
-            //Est-ce que l'IA se déplace vers le joueur ?
             if (MovingToTarget())
             {
-                //En train de marcher
                 return;
             }
-            //Sinon c'est qu'elle est à distance d'attaque
             else
             {
                 if (isLoaded)
@@ -56,7 +51,8 @@ public class MonstreIA : MonoBehaviour
                     Attack();
                 }
             }
-        } else
+        } 
+        else
         {
             SelectTarget();
         }
@@ -64,27 +60,19 @@ public class MonstreIA : MonoBehaviour
 
     bool MovingToTarget()
     {
-        //Assigne la destination : le joueur
         navMeshAgent.SetDestination(target.transform.position);
 
-        //navMeshAgent pas prêt ?
         if (navMeshAgent.remainingDistance == 0)
             return false;
 
-
-        // navMeshAgent.remainingDistance = distance restante pour atteindre la cible (Player)
-        // navMeshAgent.stoppingDistance = à quel distance de la cible l'IA doit s'arrête 
-        // (exemple 2 m pour le corps à sorps) 
         if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
         {
 
-            if (currentAction != WALK_STATE)
-                Walk();
+
 
         }
         else
         {
-            //Si arrivé à bonne distance, regarde vers le joueur
             RotateToTarget(target.transform);
             return false;
         }
@@ -93,37 +81,15 @@ public class MonstreIA : MonoBehaviour
     }
 
 
-    //Walk = Marcher
-    void Walk()
-    {
-        //Réinitialise les paramètres de l'animator
-        ResetAnimation();
-        //L'action est maintenant "Walk"
-        currentAction = WALK_STATE;
-        //Le paramètre "Walk" de l'animator = true
-        animator.SetBool(WALK_STATE, true);
-    }
 
-    //Attack = Attaquer
+
     void Attack()
     {
-        //Réinitialise les paramètres de l'animator
-        ResetAnimation();
-        //L'action est maintenant "Attack"
-        currentAction = ATTACK_STATE;
-        //Le paramètre "Attack" de l'animator = true
-        animator.SetBool(ATTACK_STATE, true);
         Shoot();
     }
 
-    private void ResetAnimation()
-    {
-        animator.SetBool(WALK_STATE, false);
-        animator.SetBool(ATTACK_STATE, false);
-    }
 
 
-    //Permet de tout le temps regarder en direction de la cible
     private void RotateToTarget(Transform target)
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -132,8 +98,13 @@ public class MonstreIA : MonoBehaviour
     }
     public void Shoot()
     {
-        if (target.GetComponent<HealthManager>() != null) { 
-            target.GetComponent<HealthManager>().GetDamage(1);
+        if (target.GetComponent<Repeater>() != null)
+        {
+            Projectile _proj = Instantiate(projectilePrefab);
+            _proj.transform.position = new Vector3(transform.position.x, .5f, transform.position.z);
+            _proj.transform.LookAt(target.transform.position);
+            _proj.target = target.transform;
+            _proj.damage = damage;
             isLoaded = false;
             StartCoroutine(Reload());
         }
