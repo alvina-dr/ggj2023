@@ -33,9 +33,10 @@ public class PlayerController : MonoBehaviour
 
     private bool isTurning = false;
 
-
+    private AmplificateurUI _amplificateurScript;
     void Start()
     {
+        _amplificateurScript = FindObjectOfType<AmplificateurUI>();
         gridPosition = GPCtrl.Instance.railMap.WorldToCell(new Vector3(playerMove.transform.position.x, playerMove.transform.position.z, 0));
         playerMesh.transform.position = new Vector3(gridPosition.x, playerMesh.transform.position.y, gridPosition.y);
     }
@@ -295,9 +296,9 @@ public class PlayerController : MonoBehaviour
         {
             energyAmount -= energyMax;
             repeaterAmount++;
-            //maj repeater num here
+            _amplificateurScript.CounterTextUpdate();
         }
-        //here update energy bar
+        _amplificateurScript.FillBarUpdate();
     }
 
 }
