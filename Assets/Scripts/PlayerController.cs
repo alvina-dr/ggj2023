@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UI.Scripts;
 using UnityEngine.Tilemaps;
 using static UnityEngine.GraphicsBuffer;
 
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     public int energyMax;
     public int energyAmount;
+
+    public int repeaterAmount;
 
     public int currentTool;
 
@@ -158,6 +161,8 @@ public class PlayerController : MonoBehaviour
                 });
             } else if (currentTool == 1) //repeater
             {
+                if (repeaterAmount <= 0) return;
+                repeaterAmount--;
                 GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
                 GPCtrl.Instance.UpdateRepeaterList();
                 GPCtrl.Instance.repeaters.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
@@ -188,11 +193,12 @@ public class PlayerController : MonoBehaviour
                     Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
                     GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
                     GPCtrl.Instance.UpdateRepeaterList();
+                    repeaterAmount++;
                     break;
                 case InteractableObject.ObjectType.Crystal:
                     Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
                     GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
-                    energyAmount += 30;
+                    AddEnergy(30);
                     break;
                 case InteractableObject.ObjectType.Spawner:
                     break;
@@ -280,6 +286,18 @@ public class PlayerController : MonoBehaviour
 
         }
         return null;
+    }
+
+    public void AddEnergy(int _num)
+    {
+        energyAmount += _num;
+        if (energyAmount >= energyMax)
+        {
+            energyAmount -= energyMax;
+            repeaterAmount++;
+            //maj repeater num here
+        }
+        //here update energy bar
     }
 
 }

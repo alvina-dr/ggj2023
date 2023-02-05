@@ -105,7 +105,6 @@ public class MonstreIA : MonoBehaviour
             _proj.transform.LookAt(target.transform.position);
             _proj.target = target.transform;
             _proj.damage = damage;
-            Debug.Log(damage);
             isLoaded = false;
             StartCoroutine(Reload());
         }
