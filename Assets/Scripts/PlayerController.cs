@@ -34,8 +34,15 @@ public class PlayerController : MonoBehaviour
     private bool isTurning = false;
 
     private AmplificateurUI _amplificateurScript;
+
+    AudioSource recolte_minerai;
+    public GameObject son;
+    SelectAudioSource audioSource;
+
     void Start()
     {
+        recolte_minerai = son.GetComponent<SelectAudioSource>().recolte_minerai;
+
         _amplificateurScript = FindObjectOfType<AmplificateurUI>();
         gridPosition = GPCtrl.Instance.railMap.WorldToCell(new Vector3(playerMove.transform.position.x, playerMove.transform.position.z, 0));
         playerMesh.transform.position = new Vector3(gridPosition.x, playerMesh.transform.position.y, gridPosition.y);
@@ -200,6 +207,9 @@ public class PlayerController : MonoBehaviour
                     Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
                     GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
                     AddEnergy(30);
+
+                    recolte_minerai.Play(0);
+
                     break;
                 case InteractableObject.ObjectType.Spawner:
                     break;

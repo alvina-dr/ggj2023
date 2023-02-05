@@ -14,6 +14,7 @@ public class MonstreIA : MonoBehaviour
     //Agent de Navigation
     NavMeshAgent navMeshAgent;
 
+    AudioSource base_attacked;
     AudioSource enemy_attack;
     public GameObject son;
     SelectAudioSource audioSource;
@@ -42,6 +43,7 @@ public class MonstreIA : MonoBehaviour
 
     private void Start()
     {
+        base_attacked = son.GetComponent<SelectAudioSource>().base_attacked;
         enemy_attack = son.GetComponent<SelectAudioSource>().enemy_attack;
     }
 
@@ -58,7 +60,6 @@ public class MonstreIA : MonoBehaviour
                 if (isLoaded)
                 {
                     Attack();
-                    enemy_attack.Play(0);
                 }
             }
         } 
@@ -96,6 +97,8 @@ public class MonstreIA : MonoBehaviour
     void Attack()
     {
         Shoot();
+        base_attacked.Play(0);
+        enemy_attack.Play(0);
     }
 
 

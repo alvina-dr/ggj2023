@@ -9,6 +9,10 @@ public class GPCtrl : MonoBehaviour
 
     private static GPCtrl _instance;
 
+    AudioSource victory;
+    public GameObject son;
+    SelectAudioSource audioSource;
+
     public static GPCtrl Instance
     {
         get
@@ -31,6 +35,8 @@ public class GPCtrl : MonoBehaviour
 
     void Start()
     {
+        victory = son.GetComponent<SelectAudioSource>().victory;
+
         UpdateObjectList();
 
         Rail[] _rails = FindObjectsOfType<Rail>();
@@ -95,5 +101,6 @@ public class GPCtrl : MonoBehaviour
     public void WinGame()
     {
         SceneManager.LoadScene(0);
+        victory.Play(0);
     }
 }

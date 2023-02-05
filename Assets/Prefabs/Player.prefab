@@ -209,7 +209,7 @@ MonoBehaviour:
   energyAmount: 0
   repeaterAmount: 0
   currentTool: 0
-  trailParticle: {fileID: 5963666742043930387}
+  son: {fileID: 2471148083729749625, guid: 1072e66c08ed92b4a9e3aac7fa2bc9ef, type: 3}
 --- !u!1001 &5049757613401953640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -460,10 +460,5 @@ PrefabInstance:
 --- !u!4 &5963666742043707655 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 461266, guid: 1e5c0fff22491194b8556da18347cc50, type: 3}
-  m_PrefabInstance: {fileID: 5963666742043771093}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5963666742043930387 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 159686, guid: 1e5c0fff22491194b8556da18347cc50, type: 3}
   m_PrefabInstance: {fileID: 5963666742043771093}
   m_PrefabAsset: {fileID: 0}

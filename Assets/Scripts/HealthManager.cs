@@ -31,7 +31,6 @@ public class HealthManager : MonoBehaviour
 
     public void GetDamage(int damage)
     {
-
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
