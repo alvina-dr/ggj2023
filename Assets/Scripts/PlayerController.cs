@@ -185,6 +185,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(railReloadTime);
         isLoadingRail = false;
         railAmmo++;
+        FindObjectOfType<ReloadRails>().UpdateRailBar();
     }
 
 }
