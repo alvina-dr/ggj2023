@@ -34,6 +34,7 @@ public class GPCtrl : MonoBehaviour
         {
             rails.Add(_rails[i]);
         }
+        UpdateAllRailState();
     }
 
     void Update()
@@ -62,6 +63,18 @@ public class GPCtrl : MonoBehaviour
         if (repeaters.Count == 0)
         {
             Debug.Log("GAME OVER");
+        }
+    }
+
+    public void UpdateAllRailState()
+    {
+        foreach(Rail _rail in rails)
+        {
+            _rail.DeactivateRail();
+        }
+        foreach(Repeater r in repeaters)
+        {
+            r.DetectRails();
         }
     }
 }

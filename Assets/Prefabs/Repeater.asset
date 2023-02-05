@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: Repeater
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 1234477326, guid: b5c0b2014c7392944b248992f026a2ad, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 50ffab6cfb37a334a814fb68edc8e319, type: 3}
   m_DefaultGameObject: {fileID: 3306875410271972837, guid: 1f7eb0e1db3767a42a2c8c83cfbe18e3, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []
