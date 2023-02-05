@@ -24,36 +24,18 @@ public class GPCtrl : MonoBehaviour
 
     public Tilemap railMap;
     public List<TileBase> tileBaseTools = new List<TileBase>();
-    public List<Rail> rails = new List<Rail>();
-    public List<Repeater> repeaters = new List<Repeater>();
     public List<InteractableObject> objectList = new List<InteractableObject>();
 
 
     void Start()
     {
         UpdateObjectList();
-
-        Rail[] _rails = FindObjectsOfType<Rail>();
-        for (int i = 0; i < _rails.Length; i++)
-        {
-            rails.Add(_rails[i]);
-        }
         UpdateAllRailState();
     }
 
     void Update()
     {
         
-    }
-
-    public void UpdateRailList()
-    {
-        rails.Clear();
-        Rail[] _rails = FindObjectsOfType<Rail>();
-        for (int i = 0; i < _rails.Length; i++)
-        {
-            rails.Add(_rails[i]);
-        }
     }
 
     public void UpdateObjectList()
@@ -66,29 +48,22 @@ public class GPCtrl : MonoBehaviour
         }
     }
 
-    public void UpdateRepeaterList()
-    {
-        repeaters.Clear();
-        Repeater[] _rails = FindObjectsOfType<Repeater>();
-        for (int i = 0; i < _rails.Length; i++)
-        {
-            repeaters.Add(_rails[i]);
-        }
-        if (repeaters.Count == 0)
-        {
-            Debug.Log("GAME OVER");
-        }
-    }
-
     public void UpdateAllRailState()
     {
-        foreach(Rail _rail in rails)
+        List<InteractableObject> _rails = objectList.FindAll(x => x.objectType == InteractableObject.ObjectType.Rail);
+        foreach(InteractableObject _rail in _rails)
         {
-            _rail.DeactivateRail();
+            _rail.GetComponent<Rail>().DeactivateRail();
         }
-        foreach(Repeater r in repeaters)
+        DetectAllRails();
+    }
+
+    public void DetectAllRails()
+    {
+        List<InteractableObject> _repeaters = objectList.FindAll(x => x.objectType == InteractableObject.ObjectType.Repeater);
+        foreach (InteractableObject _repeater in _repeaters)
         {
-            r.DetectRails();
+            _repeater.GetComponent<Repeater>().DetectRails();
         }
     }
 
