@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Image = Microsoft.Unity.VisualStudio.Editor.Image;
 
 namespace UI.Scripts
 {

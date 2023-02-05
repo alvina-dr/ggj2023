@@ -17,9 +17,15 @@ public class Spawner : InteractableObject
     [SerializeField]
     public int randomSpawn;
 
+    AudioSource wave_of_enemies;
+    public GameObject son;
+    SelectAudioSource audioSource;
+
     void Start()
     {
         StartCoroutine(spawnEnemy(timeSpawn, mob));
+
+        wave_of_enemies = son.GetComponent<SelectAudioSource>().wave_of_enemies;
     }
 
     void Update()
@@ -34,6 +40,7 @@ public class Spawner : InteractableObject
                 _mob.transform.position = transform.position;
             }
             timer = 0f;
+            wave_of_enemies.Play(0);
         }
     }
 

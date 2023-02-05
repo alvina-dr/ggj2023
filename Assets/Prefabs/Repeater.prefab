@@ -66,6 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 20
   currentHealth: 0
+  son: {fileID: 2471148083729749625, guid: 1072e66c08ed92b4a9e3aac7fa2bc9ef, type: 3}
 --- !u!65 &280344782355243331
 BoxCollider:
   m_ObjectHideFlags: 0

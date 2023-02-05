@@ -11,10 +11,18 @@ public class HealthManager : MonoBehaviour
 
     GameObject projectile;
 
+    AudioSource enemy_death;
+    AudioSource repeater_stop;
+    public GameObject son;
+    SelectAudioSource audioSource;
 
-    private void Start()
+
+    void Start()
     {
         currentHealth = maxHealth;
+
+        enemy_death = son.GetComponent<SelectAudioSource>().enemy_death;
+        repeater_stop = son.GetComponent<SelectAudioSource>().repeater_stop;
     }
 
     private void Update()
@@ -28,6 +36,15 @@ public class HealthManager : MonoBehaviour
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
+
+            if (GetComponent<Repeater>()!= null)
+            {
+                repeater_stop.Play(0);
+            }
+            else
+            {
+                enemy_death.Play(0);
+            }
         }
     }
 
