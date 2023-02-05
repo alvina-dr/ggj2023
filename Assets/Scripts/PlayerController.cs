@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public int currentTool;
 
-
+    private bool isTurning = false;
 
 
     void Start()
@@ -50,21 +50,53 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(1, 0);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, -90, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, -90, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
             MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.LeftArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(-1, 0);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, 90, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 90, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
             MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.UpArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(0, 1);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, 180, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
             MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.DownArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(0, -1);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, 0, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 0, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
             MoveTile(targetTilePosition);
         } else
         {

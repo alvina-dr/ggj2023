@@ -31,7 +31,7 @@ public class Rail : MonoBehaviour
     public void ActivateRail()
     {
         //transform.DOScale(1.1f, .2f);
-        transform.DOMoveY(.2f, .2f);
+        transform.DOMoveY(.05f, .2f);
         runeA.material = activeMaterial;
         runeB.material = activeMaterial;
         isActivated = true;
