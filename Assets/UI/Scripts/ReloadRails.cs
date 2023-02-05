@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using TMPro;
 public class ReloadRails : MonoBehaviour
 {
-
     [SerializeField] private Image fillBar;
     [SerializeField] private TextMeshProUGUI railCount;
     private float _elapsedTime;

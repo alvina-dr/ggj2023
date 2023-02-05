@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Rail : MonoBehaviour
+public class Rail : InteractableObject
 {
 
     public bool isActivated = false;
-    public Vector3Int gridPosition;
     public Material activeMaterial;
     public Material inactiveMaterial;
 
     public MeshRenderer runeA;
     public MeshRenderer runeB;
-    void Start()
-    {
-        gridPosition = GPCtrl.Instance.railMap.WorldToCell(transform.position);
-    }
+
 
     void Update()
     {

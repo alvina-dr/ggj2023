@@ -18,10 +18,13 @@ public class PlayerController : MonoBehaviour
     Vector2 direction;
     public bool isMoving = false;
 
-    public int railAmmoMax;
-    public int railAmmo;
+    public int railMax;
+    public int railAmount;
     public float railReloadTime;
     bool isLoadingRail;
+
+    public int energyMax;
+    public int energyAmount;
 
     public int currentTool;
 
@@ -119,7 +122,7 @@ public class PlayerController : MonoBehaviour
             if (currentTool >= GPCtrl.Instance.tileBaseTools.Count) currentTool = 0;
         }
 
-        if (railAmmo < railAmmoMax && !isLoadingRail)
+        if (railAmount < railMax && !isLoadingRail)
         {
             isLoadingRail = true;
             StartCoroutine(RailReload());
@@ -145,8 +148,8 @@ public class PlayerController : MonoBehaviour
         {
             if (currentTool == 0) //rails
             {
-                if (railAmmo <= 0) return;
-                railAmmo--;
+                if (railAmount <= 0) return;
+                railAmount--;
                 GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
                 GPCtrl.Instance.UpdateRailList();
                 GPCtrl.Instance.rails.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
@@ -171,19 +174,27 @@ public class PlayerController : MonoBehaviour
     {
         Vector3Int nextTile = gridPosition + _direction;
         if (CheckHasObstacle(new Vector3Int(nextTile.x, -nextTile.y))) 
-        { 
-            if (CheckHasRail(new Vector3Int(nextTile.x, -nextTile.y))) 
-            { 
-                Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
-                GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
-                GPCtrl.Instance.UpdateRailList();
-                railAmmo++;
-            }
-            else if (CheckHasRepeater(new Vector3Int(nextTile.x, -nextTile.y)))
+        {
+            switch(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)).GetComponent<InteractableObject>().objectType)
             {
-                Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
-                GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
-                GPCtrl.Instance.UpdateRepeaterList();
+                case InteractableObject.ObjectType.Rail:
+                    Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
+                    GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+                    railAmount++;
+                    GPCtrl.Instance.UpdateRailList();
+                    break;
+                case InteractableObject.ObjectType.Repeater:
+                    Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
+                    GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+                    GPCtrl.Instance.UpdateRepeaterList();
+                    break;
+                case InteractableObject.ObjectType.Crystal:
+                    Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
+                    GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+                    energyAmount += 30;
+                    break;
+                case InteractableObject.ObjectType.Spawner:
+                    break;
             }
         }
     }
@@ -205,7 +216,6 @@ public class PlayerController : MonoBehaviour
                 hasTile = true;
             }
         }
-        if (hasTile == true) Debug.Log("CAN'T BUILD TILE");
         return hasTile;
     }
 
@@ -255,7 +265,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(railReloadTime);
         isLoadingRail = false;
-        railAmmo++;
+        railAmount++;
     }
 
     public GameObject GetSpecificObject(Vector3Int _tile)

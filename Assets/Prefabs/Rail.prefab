@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eff5ce9cca345b646b247f55bf5c88d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActivated: 0
+  objectType: 1
   gridPosition: {x: 0, y: 0, z: 0}
+  isActivated: 0
   activeMaterial: {fileID: 2100000, guid: 7b5a2b0305fa8ec48bd80ef92e0b83ba, type: 2}
   inactiveMaterial: {fileID: 2100000, guid: 2f107d4f8241fdf4b83a49d3e915ed88, type: 2}
   runeA: {fileID: 4836562339997881892}

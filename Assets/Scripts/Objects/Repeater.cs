@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Repeater : MonoBehaviour
+public class Repeater : InteractableObject
 {
 
     public int reachRepeater;
     public List<Rail> repeatedRails;
-    public Vector3Int gridPosition;
 
     void Start()
     {
-        gridPosition = GPCtrl.Instance.railMap.WorldToCell(transform.position);
         DetectRails();
     }
 
