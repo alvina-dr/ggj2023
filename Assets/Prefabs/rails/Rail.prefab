@@ -122,7 +122,7 @@ PrefabInstance:
     - target: {fileID: -322703021857521030, guid: 17237f23bb027534b9442839dcde8b0e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2f107d4f8241fdf4b83a49d3e915ed88, type: 2}
+      objectReference: {fileID: 2100000, guid: 4d4a5a3362f995649877255da6fc1988, type: 2}
     - target: {fileID: 919132149155446097, guid: 17237f23bb027534b9442839dcde8b0e, type: 3}
       propertyPath: m_Name
       value: Rails
@@ -130,7 +130,7 @@ PrefabInstance:
     - target: {fileID: 4693636348809495570, guid: 17237f23bb027534b9442839dcde8b0e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2f107d4f8241fdf4b83a49d3e915ed88, type: 2}
+      objectReference: {fileID: 2100000, guid: 5616393c9b721c8438b8f65792e37710, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17237f23bb027534b9442839dcde8b0e, type: 3}
 --- !u!4 &411929608523396573 stripped

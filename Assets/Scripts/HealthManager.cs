@@ -36,7 +36,7 @@ public class HealthManager : MonoBehaviour
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
-
+            GPCtrl.Instance.UpdateObjectList();
             if (GetComponent<Repeater>()!= null)
             {
                 repeater_stop.Play(0);

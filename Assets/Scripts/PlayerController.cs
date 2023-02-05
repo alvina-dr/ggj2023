@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
         playerMesh.transform.position = Vector3.MoveTowards(playerMesh.transform.position, new Vector3(playerMove.transform.position.x, playerMesh.transform.position.y, playerMove.transform.position.z), Time.deltaTime * playerSpeed);
         if (playerMesh.transform.position != new Vector3(playerMove.transform.position.x, playerMesh.transform.position.y, playerMove.transform.position.z)) isMoving = true;
         else isMoving = false;
+
         if (CheckHasActivatedRail(new Vector3Int(gridPosition.x, -gridPosition.y))) {
             playerSpeed = playerFastSpeed;
         } else
@@ -170,8 +171,6 @@ public class PlayerController : MonoBehaviour
                 });
             }
             GPCtrl.Instance.UpdateAllRailState();
-
-
         }
     }
 
@@ -201,6 +200,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
             GPCtrl.Instance.UpdateObjectList();
+            GPCtrl.Instance.UpdateAllRailState();
         }
     }
 

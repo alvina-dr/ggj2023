@@ -13,7 +13,7 @@ public class AmplificateurUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI repeaterText;
 
     private PlayerController _playerController;
-    // Start is called before the first frame update
+
     void Start()
     {
         _playerController = FindObjectOfType<PlayerController>();
@@ -21,30 +21,21 @@ public class AmplificateurUI : MonoBehaviour
         fillBar.fillAmount = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void FillBarUpdate()
     {
          float imageFillAmount = (float)_playerController.energyAmount / _playerController.energyMax;
-         Debug.Log(imageFillAmount);
          if (imageFillAmount < fillBar.fillAmount)
          {
-             fillBar.DOFillAmount(1, .2f)
-                 .OnComplete( () =>
-                 {
-                     fillBar.fillAmount = 0;
-                     fillBar.DOFillAmount(imageFillAmount, .2f);
-                 });             
+             fillBar.DOFillAmount(1, .2f).OnComplete( () =>
+             {
+                    fillBar.fillAmount = 0;
+                    fillBar.DOFillAmount(imageFillAmount, .2f);
+             });             
          }
          else
          {
              fillBar.DOFillAmount(imageFillAmount, .2f);
          }
-
     }
 
     public void CounterTextUpdate()

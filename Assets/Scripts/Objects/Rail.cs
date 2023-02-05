@@ -26,8 +26,6 @@ public class Rail : InteractableObject
 
     public void ActivateRail()
     {
-        //transform.DOScale(1.1f, .2f);
-        transform.DOMoveY(.05f, .2f);
         runeA.material = activeMaterial;
         runeB.material = activeMaterial;
         isActivated = true;
@@ -35,8 +33,6 @@ public class Rail : InteractableObject
 
     public void DeactivateRail()
     {
-        //transform.DOScale(1f, .2f);
-        transform.DOMoveY(0f, .2f);
         runeA.material = inactiveMaterial;
         runeB.material = inactiveMaterial;
         isActivated = false;

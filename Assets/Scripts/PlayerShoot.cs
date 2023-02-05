@@ -15,6 +15,7 @@ public class PlayerShoot : MonoBehaviour
     AudioSource robot_attack;
     public GameObject son;
     SelectAudioSource audioSource;
+    public PlayerController _player;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,6 +23,7 @@ public class PlayerShoot : MonoBehaviour
         {
             _targets.Add(other.GetComponent<MonstreIA>());
         }
+        _player = FindObjectOfType<PlayerController>();
     }
 
     private void Start()
@@ -37,10 +39,10 @@ public class PlayerShoot : MonoBehaviour
             Shoot();
             robot_attack.Play(0);
         }
-        if (_targets != null && _targets.Count > 0 && _targets[0] != null)
-        {
-            transform.LookAt(_targets[0].transform.position);
-        }
+        //if (!_player.isMoving && _targets != null && _targets.Count > 0 && _targets[0] != null)
+        //{
+        //    transform.LookAt(_targets[0].transform.position);
+        //}
     }
 
     public void Shoot()

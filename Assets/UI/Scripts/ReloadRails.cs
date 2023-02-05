@@ -23,14 +23,12 @@ namespace UI.Scripts
         
         }
 
-        // Start is called before the first frame update
         void Start()
         {
             _playerController = FindObjectOfType<PlayerController>();
             railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();
         }
 
-        // Update is called once per frame
         void Update()
         {
             railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();

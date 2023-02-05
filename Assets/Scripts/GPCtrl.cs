@@ -33,11 +33,6 @@ public class GPCtrl : MonoBehaviour
         UpdateAllRailState();
     }
 
-    void Update()
-    {
-        
-    }
-
     public void UpdateObjectList()
     {
         objectList.Clear();
@@ -45,6 +40,10 @@ public class GPCtrl : MonoBehaviour
         for (int i = 0; i < _objects.Length; i++)
         {
             objectList.Add(_objects[i]);
+        }
+        if (objectList.Find(x => x.objectType == InteractableObject.ObjectType.Repeater) == null) { 
+            Debug.Log("GAME OVER");
+            LooseGame();
         }
     }
 
@@ -68,6 +67,11 @@ public class GPCtrl : MonoBehaviour
     }
 
     public void WinGame()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void LooseGame()
     {
         SceneManager.LoadScene(0);
     }

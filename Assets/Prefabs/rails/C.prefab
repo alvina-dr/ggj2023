@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3306875410271972841}
   - component: {fileID: 751810318899983518}
   m_Layer: 0
-  m_Name: Rail 3
+  m_Name: C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,6 +122,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1e694e7b19177404cba979bbf663f914, type: 3}
       propertyPath: m_Name
       value: X_rail
+      objectReference: {fileID: 0}
+    - target: {fileID: 2676300985396299358, guid: 1e694e7b19177404cba979bbf663f914, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e694e7b19177404cba979bbf663f914, type: 3}

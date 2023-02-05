@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadTime: 0.5
   _targets: []
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 5907139965241345166, guid: 21833b489de395a44b2a7dc45a04ab66, type: 3}
   damage: 0
   son: {fileID: 2471148083729749625, guid: 1072e66c08ed92b4a9e3aac7fa2bc9ef, type: 3}
 --- !u!135 &2169426383177429949

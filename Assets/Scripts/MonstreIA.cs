@@ -19,15 +19,6 @@ public class MonstreIA : MonoBehaviour
     SelectAudioSource audioSource;
 
 
-    //Animations
-    Animator animator;
-    const string STAND_STATE = "Stand";
-    const string WALK_STATE = "Walk";
-    const string ATTACK_STATE = "Attack";
-
-    //Action actuelle
-    public string currentAction;
-
     bool isLoaded = true;
     public float reloadTime = .5f;
     public Projectile projectilePrefab;
@@ -37,7 +28,7 @@ public class MonstreIA : MonoBehaviour
     void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
     private void Start()
