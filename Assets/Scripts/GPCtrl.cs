@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class GPCtrl : MonoBehaviour
 {
@@ -89,5 +90,10 @@ public class GPCtrl : MonoBehaviour
         {
             r.DetectRails();
         }
+    }
+
+    public void WinGame()
+    {
+        SceneManager.LoadScene(0);
     }
 }

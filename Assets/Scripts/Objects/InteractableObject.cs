@@ -10,7 +10,8 @@ public class InteractableObject : MonoBehaviour
         Rail = 1,
         Repeater = 2,
         Crystal = 3,
-        Spawner = 4
+        Spawner = 4,
+        Artifact = 5
     }
 
     public ObjectType objectType;

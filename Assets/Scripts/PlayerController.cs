@@ -4,7 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 using UI.Scripts;
 using UnityEngine.Tilemaps;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
@@ -201,6 +200,9 @@ public class PlayerController : MonoBehaviour
                     AddEnergy(30);
                     break;
                 case InteractableObject.ObjectType.Spawner:
+                    break;
+                case InteractableObject.ObjectType.Artifact:
+                    GPCtrl.Instance.WinGame();
                     break;
             }
             GPCtrl.Instance.UpdateObjectList();
