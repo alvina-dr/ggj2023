@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b080979e7e9c9134294f6e470eb7030c
+guid: 4644006e819038c4a81bd1d3df15ff31
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Luminosidad 2
-    second: {fileID: 2100000, guid: 91bb44b4b37756b43858d075d42db4f4, type: 2}
+      name: ground
+    second: {fileID: 2100000, guid: 09578f8a674f29b4aaf2564946c2c60e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Luminosidad.003
-    second: {fileID: 2100000, guid: 5131177b332d08a48be2f87c6a394314, type: 2}
+      name: herbe
+    second: {fileID: 2100000, guid: 5828892fbff90314a90828e59e382e42, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +45,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.1
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -76,7 +76,7 @@ ModelImporter:
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
-    useFileScale: 0
+    useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -98,7 +98,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.1
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
