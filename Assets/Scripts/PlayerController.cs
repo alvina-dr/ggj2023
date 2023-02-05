@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isTurning = false;
 
+    public GameObject trailParticle;
+
 
     void Start()
     {
@@ -47,9 +49,11 @@ public class PlayerController : MonoBehaviour
         else isMoving = false;
         if (CheckHasActivatedRail(new Vector3Int(gridPosition.x, -gridPosition.y))) {
             playerSpeed = playerFastSpeed;
+            trailParticle.SetActive(true);
         } else
         {
             playerSpeed = playerSlowSpeed;
+            trailParticle.SetActive(false);
         }
 
         if (Input.GetKey(KeyCode.RightArrow) && !isMoving)
