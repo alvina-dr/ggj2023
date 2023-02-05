@@ -130,10 +130,7 @@ public class MonstreIA : MonoBehaviour
             float _currentDistance = Vector3.Distance(transform.position, _repeater.transform.position);
             if (_currentDistance < minDistance) { minDistance = _currentDistance; }
         }
-        if (_repeaters.Count == 0)
-        {
-            Debug.Log("no repeaters found");
-        }
+        if (minDistance == 1000) return;
         target = _repeaters.Find(x => Vector3.Distance(transform.position, x.transform.position) == minDistance).gameObject;
     }
 }
