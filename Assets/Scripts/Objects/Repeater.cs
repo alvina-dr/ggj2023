@@ -13,14 +13,6 @@ public class Repeater : InteractableObject
         DetectRails();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            DetectRails();
-        }
-    }
-
     public void DetectRails()
     {
         repeatedRails.Clear();

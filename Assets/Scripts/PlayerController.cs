@@ -113,9 +113,7 @@ public class PlayerController : MonoBehaviour
         if (!isMoving && Input.GetKeyDown(KeyCode.Space) && direction != Vector2Int.zero)
         {
             BuildTile(targetTilePosition);
-        }
-
-        if (!isMoving && Input.GetKey(KeyCode.Z) && direction != Vector2Int.zero)
+        } else if (!isMoving && Input.GetKey(KeyCode.Z) && direction != Vector2Int.zero)
         {
             GetTile(targetTilePosition);
         }
@@ -238,16 +236,6 @@ public class PlayerController : MonoBehaviour
         {
             isActivated = GetSpecificObject(_tile).GetComponent<Rail>().isActivated;
         }
-        //for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
-        //{
-        //    if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
-        //    {
-        //        if (GPCtrl.Instance.rails[i].isActivated)
-        //        {
-        //            isActivated = true;
-        //        }
-        //    }
-        //}
         return isActivated;
     }
 
