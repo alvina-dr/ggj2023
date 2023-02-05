@@ -160,6 +160,8 @@ public class PlayerController : MonoBehaviour
                 });
             } else if (currentTool == 1) //repeater
             {
+                if (repeaterAmount <= 0) return;
+                repeaterAmount--;
                 GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
                 GPCtrl.Instance.UpdateRepeaterList();
                 GPCtrl.Instance.repeaters.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
