@@ -102,6 +102,7 @@ MonoBehaviour:
   _targets: []
   projectilePrefab: {fileID: 0}
   damage: 0
+  son: {fileID: 2471148083729749625, guid: 1072e66c08ed92b4a9e3aac7fa2bc9ef, type: 3}
 --- !u!135 &2169426383177429949
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -200,9 +201,12 @@ MonoBehaviour:
   playerFastSpeed: 10
   playerSlowSpeed: 3
   isMoving: 0
-  railAmmoMax: 30
-  railAmmo: 0
+  railMax: 0
+  railAmount: 0
   railReloadTime: 10
+  energyMax: 0
+  energyAmount: 0
+  repeaterAmount: 0
   currentTool: 0
 --- !u!1001 &5049757613401953640
 PrefabInstance:

@@ -12,6 +12,10 @@ public class PlayerShoot : MonoBehaviour
     public Projectile projectilePrefab;
     public int damage;
 
+    AudioSource robot_attack;
+    public GameObject son;
+    SelectAudioSource audioSource;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<MonstreIA>() != null)
@@ -20,12 +24,18 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        robot_attack = son.GetComponent<SelectAudioSource>().robot_attack;
+    }
+
     public void Update()
     {
         if (_targets.Count > 0 && _targets[0] == null) { _targets.Remove(_targets[0]); }
         if (_targets != null && _targets.Count > 0 && isLoaded)
         {
             Shoot();
+            robot_attack.Play(0);
         }
         if (_targets != null && _targets.Count > 0 && _targets[0] != null)
         {
