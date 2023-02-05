@@ -27,13 +27,13 @@ namespace UI.Scripts
         void Start()
         {
             _playerController = FindObjectOfType<PlayerController>();
-            railCount.text = _playerController.railAmmo.ToString() + "/" + _playerController.railAmmoMax.ToString();
+            railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();
         }
 
         // Update is called once per frame
         void Update()
         {
-            railCount.text = _playerController.railAmmo.ToString() + "/" + _playerController.railAmmoMax.ToString();
+            railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();
             if (_elapsedTime < _playerController.railReloadTime)
             {
                 _elapsedTime += Time.deltaTime;
@@ -46,7 +46,7 @@ namespace UI.Scripts
                 }
             }
 
-            if (_playerController.railAmmo == _playerController.railAmmoMax)
+            if (_playerController.railAmount == _playerController.railMax)
             {
                 fillBar.fillAmount = 0;
             }
@@ -62,7 +62,7 @@ namespace UI.Scripts
 
         public void UpdateRailBar()
         {
-            railCount.text = _playerController.railAmmo.ToString() + "/" + _playerController.railAmmoMax.ToString();
+            railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();
  
         }
     }
