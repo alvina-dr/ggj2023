@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public int energyMax;
     public int energyAmount;
 
+    public int repeaterAmount;
+
     public int currentTool;
 
     private bool isTurning = false;
@@ -188,11 +190,12 @@ public class PlayerController : MonoBehaviour
                     Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
                     GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
                     GPCtrl.Instance.UpdateRepeaterList();
+                    repeaterAmount++;
                     break;
                 case InteractableObject.ObjectType.Crystal:
                     Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
                     GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
-                    energyAmount += 30;
+                    AddEnergy(30);
                     break;
                 case InteractableObject.ObjectType.Spawner:
                     break;
@@ -280,6 +283,18 @@ public class PlayerController : MonoBehaviour
 
         }
         return null;
+    }
+
+    public void AddEnergy(int _num)
+    {
+        energyAmount += _num;
+        if (energyAmount >= energyMax)
+        {
+            energyAmount -= energyMax;
+            repeaterAmount++;
+            //maj repeater num here
+        }
+        //here update energy bar
     }
 
 }

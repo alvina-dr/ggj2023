@@ -596,6 +596,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1555518855086699238, guid: f893753b23b4c444f952126d9ac3b6f0, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 5907139965241345166, guid: 21833b489de395a44b2a7dc45a04ab66, type: 3}
     - target: {fileID: 1555518855086699243, guid: f893753b23b4c444f952126d9ac3b6f0, type: 3}
       propertyPath: maxHealth
       value: 1
@@ -1307,7 +1311,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7772021, y: 1}
+    m_SensorSize: {x: 1.7760934, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8813,7 +8817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3306875410271972837, guid: 316d754aee5b647479f2fb794babe32e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3306875410271972841, guid: 316d754aee5b647479f2fb794babe32e, type: 3}
       propertyPath: m_RootOrder
