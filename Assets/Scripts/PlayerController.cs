@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public int currentTool;
 
-
+    private bool isTurning = false;
 
 
     void Start()
@@ -50,22 +50,54 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(1, 0);
-            MoveTile(targetTilePosition);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, -90, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, -90, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
+            if(!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.LeftArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(-1, 0);
-            MoveTile(targetTilePosition);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, 90, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 90, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
+            if (!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.UpArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(0, 1);
-            MoveTile(targetTilePosition);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, 180, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
+            if (!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.DownArrow) && !isMoving)
         {
             targetTilePosition = new Vector3Int(0, -1);
-            MoveTile(targetTilePosition);
+            if (playerMesh.transform.rotation != Quaternion.Euler(0, 0, 0) && !isTurning)
+            {
+                isTurning = true;
+                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 0, 0), .2f).OnComplete(() =>
+                {
+                    isTurning = false;
+                });
+            }
+            if (!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
         } else
         {
             targetTilePosition = Vector3Int.zero;
@@ -74,6 +106,11 @@ public class PlayerController : MonoBehaviour
         if (!isMoving && Input.GetKeyDown(KeyCode.Space) && direction != Vector2Int.zero)
         {
             BuildTile(targetTilePosition);
+        }
+
+        if (!isMoving && Input.GetKey(KeyCode.Z) && direction != Vector2Int.zero)
+        {
+            GetTile(targetTilePosition);
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -130,19 +167,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GetTile(Vector3Int _direction)
+    {
+        Vector3Int nextTile = gridPosition + _direction;
+        if (CheckHasObstacle(new Vector3Int(nextTile.x, -nextTile.y))) 
+        { 
+            if (CheckHasRail(new Vector3Int(nextTile.x, -nextTile.y))) 
+            { 
+                Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
+                GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+                GPCtrl.Instance.UpdateRailList();
+                railAmmo++;
+            }
+            else if (CheckHasRepeater(new Vector3Int(nextTile.x, -nextTile.y)))
+            {
+                Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
+                GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+                GPCtrl.Instance.UpdateRepeaterList();
+            }
+        }
+    }
+
     public bool CheckHasObstacle(Vector3Int _tile)
     {
         bool hasTile = false;
         for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
         {
-            if (GPCtrl.Instance.rails[i].transform.position == _tile)
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
             {
                 hasTile = true;
             }
         }
         for (int i = 0; i < GPCtrl.Instance.repeaters.Count; i++)
         {
-            if (GPCtrl.Instance.repeaters[i].transform.position == _tile)
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.repeaters[i].transform.position) == _tile)
             {
                 hasTile = true;
             }
@@ -157,6 +215,19 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
         {
             if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
+            {
+                hasTile = true;
+            }
+        }
+        return hasTile;
+    }
+
+    public bool CheckHasRepeater(Vector3Int _tile)
+    {
+        bool hasTile = false;
+        for (int i = 0; i < GPCtrl.Instance.repeaters.Count; i++)
+        {
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.repeaters[i].transform.position) == _tile)
             {
                 hasTile = true;
             }
@@ -186,6 +257,26 @@ public class PlayerController : MonoBehaviour
         isLoadingRail = false;
         railAmmo++;
         FindObjectOfType<ReloadRails>().UpdateRailBar();
+    }
+
+    public GameObject GetSpecificObject(Vector3Int _tile)
+    {
+        for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
+        {
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
+            {
+                return GPCtrl.Instance.rails[i].gameObject;
+            }
+        }
+        for (int i = 0; i < GPCtrl.Instance.repeaters.Count; i++)
+        {
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.repeaters[i].transform.position) == _tile)
+            {
+                return GPCtrl.Instance.repeaters[i].gameObject;
+            }
+
+        }
+        return null;
     }
 
 }
