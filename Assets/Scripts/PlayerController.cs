@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
     public void BuildTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (!CheckHasObstacle(new Vector3Int(nextTile.x, -nextTile.y)))
+        if (!CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y)))
         {
             if (currentTool == 0) //rails
             {
@@ -166,6 +166,7 @@ public class PlayerController : MonoBehaviour
                 });
             }
             GPCtrl.Instance.UpdateAllRailState();
+            GPCtrl.Instance.UpdateObjectList();
 
         }
     }
@@ -173,7 +174,7 @@ public class PlayerController : MonoBehaviour
     public void GetTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (CheckHasObstacle(new Vector3Int(nextTile.x, -nextTile.y))) 
+        if (CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y))) 
         {
             switch(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)).GetComponent<InteractableObject>().objectType)
             {
@@ -196,24 +197,24 @@ public class PlayerController : MonoBehaviour
                 case InteractableObject.ObjectType.Spawner:
                     break;
             }
+            GPCtrl.Instance.UpdateObjectList();
         }
     }
 
-    public bool CheckHasObstacle(Vector3Int _tile)
+    public bool CheckHasObjectType(Vector3Int _tile, InteractableObject.ObjectType _objectType = InteractableObject.ObjectType.None)
     {
         bool hasTile = false;
-        for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
+        for (int i = 0; i < GPCtrl.Instance.objectList.Count; i++)
         {
-            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.objectList[i].transform.position) == _tile)
             {
-                hasTile = true;
-            }
-        }
-        for (int i = 0; i < GPCtrl.Instance.repeaters.Count; i++)
-        {
-            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.repeaters[i].transform.position) == _tile)
-            {
-                hasTile = true;
+                if (_objectType == InteractableObject.ObjectType.None)
+                {
+                    hasTile = true;
+                } else if (GPCtrl.Instance.rails[i].objectType == _objectType)
+                {
+                    hasTile = true;
+                }
             }
         }
         return hasTile;
@@ -270,18 +271,11 @@ public class PlayerController : MonoBehaviour
 
     public GameObject GetSpecificObject(Vector3Int _tile)
     {
-        for (int i = 0; i < GPCtrl.Instance.rails.Count; i++)
+        for (int i = 0; i < GPCtrl.Instance.objectList.Count; i++)
         {
-            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.rails[i].transform.position) == _tile)
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.objectList[i].transform.position) == _tile)
             {
-                return GPCtrl.Instance.rails[i].gameObject;
-            }
-        }
-        for (int i = 0; i < GPCtrl.Instance.repeaters.Count; i++)
-        {
-            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.repeaters[i].transform.position) == _tile)
-            {
-                return GPCtrl.Instance.repeaters[i].gameObject;
+                return GPCtrl.Instance.objectList[i].gameObject;
             }
 
         }

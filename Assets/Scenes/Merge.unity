@@ -432,7 +432,6 @@ MonoBehaviour:
   tileBaseTools:
   - {fileID: 11400000, guid: 49c47ce32e2018c4eaf814390bbfb155, type: 2}
   - {fileID: 11400000, guid: 65fcf7a8869030546946a7666f24ef2e, type: 2}
-  - {fileID: 11400000, guid: 65fcf7a8869030546946a7666f24ef2e, type: 2}
   rails: []
   repeaters: []
   objectList: []
@@ -1283,7 +1282,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.7772021, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1568,6 +1567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1375383931}
   - component: {fileID: 1375383932}
+  - component: {fileID: 1375383933}
   m_Layer: 5
   m_Name: Top_Left_UI
   m_TagString: Untagged
@@ -1604,6 +1604,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375383930}
   m_CullTransparentMesh: 1
+--- !u!114 &1375383933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375383930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beca540a6c07b5f4c85a09f001b42929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSprites:
+  - {fileID: 21300000, guid: 2ba5f91a414305844aa56aba9709f239, type: 3}
+  - {fileID: 21300000, guid: 2b0cb1c22fbe0e44fa60ef1abd2706b9, type: 3}
+  spritesContainer: {fileID: 658748218}
 --- !u!1 &1409658575
 GameObject:
   m_ObjectHideFlags: 0
@@ -8991,8 +9007,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2169426384467745956, guid: c6a2031d9bd419345bd665fa1e9e940a, type: 3}
+      propertyPath: railMax
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2169426384467745956, guid: c6a2031d9bd419345bd665fa1e9e940a, type: 3}
       propertyPath: energyMax
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2169426384467745956, guid: c6a2031d9bd419345bd665fa1e9e940a, type: 3}
+      propertyPath: railAmount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2169426384467745956, guid: c6a2031d9bd419345bd665fa1e9e940a, type: 3}
       propertyPath: railReloadTime

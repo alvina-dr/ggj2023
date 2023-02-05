@@ -26,13 +26,13 @@ public class ReloadRails : MonoBehaviour
     void Start()
     {
         _playerController = FindObjectOfType<PlayerController>();
-        railCount.text = _playerController.railAmmo.ToString() + "/" + _playerController.railAmmoMax.ToString();
+        railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        railCount.text = _playerController.railAmmo.ToString() + "/" + _playerController.railAmmoMax.ToString();
+        railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();
         if (_elapsedTime < _playerController.railReloadTime)
         {
             _elapsedTime += Time.deltaTime;
@@ -45,7 +45,7 @@ public class ReloadRails : MonoBehaviour
             }
         }
 
-        if (_playerController.railAmmo == _playerController.railAmmoMax)
+        if (_playerController.railAmount == _playerController.railMax)
         {
             fillBar.fillAmount = 0;
         }
@@ -61,7 +61,7 @@ public class ReloadRails : MonoBehaviour
 
     public void UpdateRailBar()
     {
-        railCount.text = _playerController.railAmmo.ToString() + "/" + _playerController.railAmmoMax.ToString();
+        railCount.text = _playerController.railAmount.ToString() + "/" + _playerController.railMax.ToString();
  
     }
 }
