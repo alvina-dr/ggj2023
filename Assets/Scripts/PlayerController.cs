@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UI.Scripts;
 using UnityEngine.Tilemaps;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,9 +33,10 @@ public class PlayerController : MonoBehaviour
 
     private bool isTurning = false;
 
-
+    private AmplificateurUI _amplificateurScript;
     void Start()
     {
+        _amplificateurScript = FindObjectOfType<AmplificateurUI>();
         gridPosition = GPCtrl.Instance.railMap.WorldToCell(new Vector3(playerMove.transform.position.x, playerMove.transform.position.z, 0));
         playerMesh.transform.position = new Vector3(gridPosition.x, playerMesh.transform.position.y, gridPosition.y);
     }
@@ -201,9 +203,6 @@ public class PlayerController : MonoBehaviour
                     break;
                 case InteractableObject.ObjectType.Spawner:
                     break;
-                case InteractableObject.ObjectType.Artifact:
-                    GPCtrl.Instance.WinGame();
-                    break;
             }
             GPCtrl.Instance.UpdateObjectList();
         }
@@ -297,9 +296,9 @@ public class PlayerController : MonoBehaviour
         {
             energyAmount -= energyMax;
             repeaterAmount++;
-            //maj repeater num here
+            _amplificateurScript.CounterTextUpdate();
         }
-        //here update energy bar
+        _amplificateurScript.FillBarUpdate();
     }
 
 }
