@@ -8,7 +8,9 @@ public class PlayerShoot : MonoBehaviour
 
     bool isLoaded = true;
     public float reloadTime = .5f;
-    List<MonstreIA> _targets = new List<MonstreIA>();
+    public List<MonstreIA> _targets = new List<MonstreIA>();
+    public Projectile projectilePrefab;
+    public int damage;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,13 +27,21 @@ public class PlayerShoot : MonoBehaviour
         {
             Shoot();
         }
+        if (_targets != null && _targets.Count > 0 && _targets[0] != null)
+        {
+            transform.LookAt(_targets[0].transform.position);
+        }
     }
 
     public void Shoot()
     {
         if (_targets[0].GetComponent<HealthManager>() != null)
         {
-            _targets[0].GetComponent<HealthManager>().GetDamage(1);
+            Projectile _proj = Instantiate(projectilePrefab);
+            _proj.transform.position = transform.position;
+            _proj.transform.LookAt(_targets[0].transform.position);
+            _proj.target = _targets[0].transform;
+            _proj.damage = damage;
             isLoaded = false;
             StartCoroutine(Reload());
         }

@@ -9,6 +9,8 @@ public class HealthManager : MonoBehaviour
 
     public int currentHealth = 0;
 
+    GameObject projectile;
+
 
     private void Start()
     {
@@ -27,5 +29,15 @@ public class HealthManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if(collision.GetComponentInParent<Projectile>() != null) 
+        {
+            GetDamage(collision.GetComponentInParent<Projectile>().damage);
+            Destroy(collision.gameObject);
+        }
+
     }
 }
