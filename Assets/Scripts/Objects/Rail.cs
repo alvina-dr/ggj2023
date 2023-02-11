@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Rail : InteractableObject
+public class Rail : MonoBehaviour
 {
 
     public bool isActivated = false;
@@ -14,9 +14,12 @@ public class Rail : InteractableObject
     public MeshRenderer runeB;
 
 
-    void Update()
+    public Vector3Int gridPosition;
+
+
+    void Start()
     {
-        
+        gridPosition = GPCtrl.Instance.railMap.WorldToCell(transform.position);
     }
 
     public bool CheckIfRailActivated()

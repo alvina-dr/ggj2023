@@ -35,6 +35,7 @@ public class HealthManager : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            GPCtrl.Instance.objectList.Remove(GetComponent<InteractableObject>());
             Destroy(gameObject);
             GPCtrl.Instance.UpdateObjectList();
             if (GetComponent<Repeater>()!= null)

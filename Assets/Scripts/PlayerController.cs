@@ -33,10 +33,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isTurning = false;
 
-    private AmplificateurUI _amplificateurScript;
     void Start()
     {
-        _amplificateurScript = FindObjectOfType<AmplificateurUI>();
         gridPosition = GPCtrl.Instance.railMap.WorldToCell(new Vector3(playerMove.transform.position.x, playerMove.transform.position.z, 0));
         playerMesh.transform.position = new Vector3(gridPosition.x, playerMesh.transform.position.y, gridPosition.y);
     }
@@ -57,64 +55,33 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow) && !isMoving)
         {
+            if (targetTilePosition != new Vector3Int(1, 0)) Rotate(Quaternion.Euler(0, -90, 0));
             targetTilePosition = new Vector3Int(1, 0);
-            if (playerMesh.transform.rotation != Quaternion.Euler(0, -90, 0) && !isTurning)
-            {
-                isTurning = true;
-                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, -90, 0), .2f).OnComplete(() =>
-                {
-                    isTurning = false;
-                });
-            }
             if(!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.LeftArrow) && !isMoving)
         {
+            if (targetTilePosition != new Vector3Int(-1, 0)) Rotate(Quaternion.Euler(0, 90, 0));
             targetTilePosition = new Vector3Int(-1, 0);
-            if (playerMesh.transform.rotation != Quaternion.Euler(0, 90, 0) && !isTurning)
-            {
-                isTurning = true;
-                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 90, 0), .2f).OnComplete(() =>
-                {
-                    isTurning = false;
-                });
-            }
             if (!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.UpArrow) && !isMoving)
         {
+            if (targetTilePosition != new Vector3Int(0, 1)) Rotate(Quaternion.Euler(0, 180, 0));
             targetTilePosition = new Vector3Int(0, 1);
-            if (playerMesh.transform.rotation != Quaternion.Euler(0, 180, 0) && !isTurning)
-            {
-                isTurning = true;
-                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), .2f).OnComplete(() =>
-                {
-                    isTurning = false;
-                });
-            }
             if (!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
         }
         else if (Input.GetKey(KeyCode.DownArrow) && !isMoving)
         {
+            if (targetTilePosition != new Vector3Int(0, -1)) Rotate(Quaternion.Euler(0, 0, 0));
             targetTilePosition = new Vector3Int(0, -1);
-            if (playerMesh.transform.rotation != Quaternion.Euler(0, 0, 0) && !isTurning)
-            {
-                isTurning = true;
-                playerMesh.transform.DORotateQuaternion(Quaternion.Euler(0, 0, 0), .2f).OnComplete(() =>
-                {
-                    isTurning = false;
-                });
-            }
             if (!Input.GetKey(KeyCode.Z)) MoveTile(targetTilePosition);
-        } else
-        {
-            targetTilePosition = Vector3Int.zero;
         }
 
-        if (!isMoving && Input.GetKeyDown(KeyCode.Space) && direction != Vector2Int.zero)
+        if (!isMoving && Input.GetKeyDown(KeyCode.Space))
         {
-            BuildTile(targetTilePosition);
-        } else if (!isMoving && Input.GetKey(KeyCode.Z) && direction != Vector2Int.zero)
+            InterractWithTile(targetTilePosition);
+        } else if (!isMoving && Input.GetKeyDown(KeyCode.Z))
         {
             GetTile(targetTilePosition);
         }
@@ -137,40 +104,68 @@ public class PlayerController : MonoBehaviour
     public void MoveTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y), InteractableObject.ObjectType.Rail))
+        if (CheckTileHasRail(new Vector3Int(nextTile.x, -nextTile.y)))
         {
             gridPosition = new Vector3Int(nextTile.x, nextTile.y);
             playerMove.transform.position = new Vector3(gridPosition.x, 0, gridPosition.y);
         }
     }
 
+    public void Rotate(Quaternion _rotation)
+    {
+        if (playerMesh.transform.rotation != _rotation /*&& !isTurning*/)
+        {
+            isTurning = true;
+            playerMesh.transform.DORotateQuaternion(_rotation, .2f).OnComplete(() =>
+            {
+                isTurning = false;
+            });
+        }
+    }
+
+    public void InterractWithTile(Vector3Int _direction)
+    {
+        Vector3Int nextTile = gridPosition + _direction;
+        if (CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y))) //if there's something get it
+        {
+            GetTile(_direction);
+        } else // if there's nothing build
+        {
+            BuildTile(_direction);
+        }
+    }
+
     public void BuildTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (!CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y)))
+        if (!CheckHasObjectType(new Vector3Int(nextTile.x, nextTile.y)) || !CheckTileHasRail(new Vector3Int(nextTile.x, nextTile.y))) //try to minus y
         {
             if (currentTool == 0) //rails
             {
                 if (railAmount <= 0) return;
                 railAmount--;
                 GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
-                GPCtrl.Instance.UpdateObjectList();
-                GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
+                GPCtrl.Instance.blockMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.blockTile);
+                GPCtrl.Instance.UpdateRailList();
+                GPCtrl.Instance.UpdateAllRailState();
+                GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
                 {
-                    GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
+                    GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
                 });
-            } else if (currentTool == 1) //repeater
+            }
+            else if (currentTool == 1) //repeater
             {
                 if (repeaterAmount <= 0) return;
                 repeaterAmount--;
+                GPCtrl.Instance.amplificateurUI.CounterTextUpdate(repeaterAmount);
                 GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
                 GPCtrl.Instance.UpdateObjectList();
+                GPCtrl.Instance.UpdateAllRailState();
                 GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
                 {
                     GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
                 });
             }
-            GPCtrl.Instance.UpdateAllRailState();
         }
     }
 
@@ -182,26 +177,44 @@ public class PlayerController : MonoBehaviour
             switch(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)).GetComponent<InteractableObject>().objectType)
             {
                 case InteractableObject.ObjectType.Rail:
-                    Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
-                    GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
-                    railAmount++;
                     break;
                 case InteractableObject.ObjectType.Repeater:
                     Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
                     GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
                     repeaterAmount++;
+                    GPCtrl.Instance.UpdateObjectList();
+                    GPCtrl.Instance.UpdateAllRailState();
                     break;
                 case InteractableObject.ObjectType.Crystal:
                     Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
                     GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
                     AddEnergy(30);
+                    GPCtrl.Instance.UpdateObjectList();
                     break;
                 case InteractableObject.ObjectType.Spawner:
                     break;
+                case InteractableObject.ObjectType.Artifact:
+                    GPCtrl.Instance.WinGame();
+                    break;
             }
-            GPCtrl.Instance.UpdateObjectList();
+        } else if (CheckTileHasRail(new Vector3Int(nextTile.x, -nextTile.y)))
+        {
+            Destroy(GetSpecificRail(new Vector3Int(nextTile.x, -nextTile.y)).gameObject);
+            GPCtrl.Instance.blockMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+            GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+            railAmount++;
+            GPCtrl.Instance.UpdateRailList();
             GPCtrl.Instance.UpdateAllRailState();
         }
+    }
+
+    public bool CheckTileHasRail(Vector3Int _tile)
+    {
+        if (GPCtrl.Instance.blockMap.GetTile(_tile) != null)
+        {
+            return true;
+        }
+        else return false;
     }
 
     public bool CheckHasObjectType(Vector3Int _tile, InteractableObject.ObjectType _objectType = InteractableObject.ObjectType.None)
@@ -232,9 +245,9 @@ public class PlayerController : MonoBehaviour
     public bool CheckHasActivatedRail(Vector3Int _tile)
     {
         bool isActivated = false;
-        if(CheckHasObjectType(_tile, InteractableObject.ObjectType.Rail))
+        if(CheckTileHasRail(_tile))
         {
-            isActivated = GetSpecificObject(_tile).GetComponent<Rail>().isActivated;
+            isActivated = GetSpecificRail(_tile).CheckIfRailActivated();
         }
         return isActivated;
     }
@@ -259,6 +272,19 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
+    public Rail GetSpecificRail(Vector3Int _tile)
+    {
+        for (int i = 0; i < GPCtrl.Instance.railList.Count; i++)
+        {
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.railList[i].transform.position) == _tile)
+            {
+                return GPCtrl.Instance.railList[i];
+            }
+
+        }
+        return null;
+    }
+
     public void AddEnergy(int _num)
     {
         energyAmount += _num;
@@ -266,9 +292,9 @@ public class PlayerController : MonoBehaviour
         {
             energyAmount -= energyMax;
             repeaterAmount++;
-            _amplificateurScript.CounterTextUpdate();
+            GPCtrl.Instance.amplificateurUI.CounterTextUpdate(repeaterAmount);
         }
-        _amplificateurScript.FillBarUpdate();
+        GPCtrl.Instance.amplificateurUI.FillBarUpdate();
     }
 
 }

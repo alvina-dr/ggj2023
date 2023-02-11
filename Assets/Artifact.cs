@@ -4,13 +4,5 @@ using UnityEngine;
 
 public class Artifact : InteractableObject
 {
-    void Start()
-    {
-        
-    }
 
-    void Update()
-    {
-        
-    }
 }

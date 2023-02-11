@@ -21,15 +21,23 @@ public class GPCtrl : MonoBehaviour
             return _instance;
         }
     }
+    public GameSettings GameSettings;
 
     public Tilemap railMap;
+    public Tilemap blockMap;
     public List<TileBase> tileBaseTools = new List<TileBase>();
     public List<InteractableObject> objectList = new List<InteractableObject>();
+    public List<Rail> railList = new List<Rail>();
+
+    public RuleTile blockTile;
+
+    public AmplificateurUI amplificateurUI;
 
 
     void Start()
     {
         UpdateObjectList();
+        UpdateRailList();
         UpdateAllRailState();
     }
 
@@ -47,10 +55,19 @@ public class GPCtrl : MonoBehaviour
         }
     }
 
+    public void UpdateRailList()
+    {
+        railList.Clear();
+        Rail[] _rails = FindObjectsOfType<Rail>();
+        for (int i = 0; i < _rails.Length; i++)
+        {
+            railList.Add(_rails[i]);
+        }
+    }
+
     public void UpdateAllRailState()
     {
-        List<InteractableObject> _rails = objectList.FindAll(x => x.objectType == InteractableObject.ObjectType.Rail);
-        foreach(InteractableObject _rail in _rails)
+        foreach(Rail _rail in railList)
         {
             _rail.GetComponent<Rail>().DeactivateRail();
         }

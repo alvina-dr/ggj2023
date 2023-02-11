@@ -38,10 +38,8 @@ public class AmplificateurUI : MonoBehaviour
          }
     }
 
-    public void CounterTextUpdate()
+    public void CounterTextUpdate(int num)
     {
-        repeaterText.text = _playerController.repeaterAmount.ToString();
+        repeaterText.text = num.ToString();
     }
-    
-    
 }

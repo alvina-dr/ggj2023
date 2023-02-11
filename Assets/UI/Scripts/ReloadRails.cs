@@ -19,8 +19,6 @@ namespace UI.Scripts
         {
             fillBar.fillAmount = 0;
             _numberOfRails = 0;
-        
-        
         }
 
         void Start()
