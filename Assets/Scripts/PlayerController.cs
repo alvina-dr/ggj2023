@@ -36,8 +36,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        gridPosition = GPCtrl.Instance.interactionMap.WorldToCell(new Vector3(playerMove.transform.position.x, playerMove.transform.position.z, 0));
+        gridPosition = GPCtrl.Instance.interactionMap.WorldToCell(new Vector3(transform.position.x, 0, transform.position.z));
         playerMesh.transform.position = new Vector3(gridPosition.x, playerMesh.transform.position.y, gridPosition.y);
+        GPCtrl.Instance.amplificateurUI.CounterTextUpdate(repeaterAmount);
     }
 
     void Update()
