@@ -18,8 +18,8 @@ public class InteractableObject : MonoBehaviour
     public Vector3Int gridPosition;
 
 
-    void Start()
+    public virtual void Start()
     {
-        gridPosition = GPCtrl.Instance.railMap.WorldToCell(transform.position);
+        gridPosition = GPCtrl.Instance.interactionMap.WorldToCell(transform.position);
     }
 }

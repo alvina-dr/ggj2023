@@ -23,8 +23,9 @@ public class GPCtrl : MonoBehaviour
     }
     public GameSettings GameSettings;
 
+    public Tilemap interactionMap;
     public Tilemap railMap;
-    public Tilemap blockMap;
+    public Tilemap obstacleMap;
     public List<TileBase> tileBaseTools = new List<TileBase>();
     public List<InteractableObject> objectList = new List<InteractableObject>();
     public List<Rail> railList = new List<Rail>();

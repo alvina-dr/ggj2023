@@ -19,7 +19,7 @@ public class Rail : MonoBehaviour
 
     void Start()
     {
-        gridPosition = GPCtrl.Instance.railMap.WorldToCell(transform.position);
+        gridPosition = GPCtrl.Instance.interactionMap.WorldToCell(transform.position);
     }
 
     public bool CheckIfRailActivated()

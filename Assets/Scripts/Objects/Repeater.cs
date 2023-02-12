@@ -8,10 +8,13 @@ public class Repeater : InteractableObject
     public int reachRepeater;
     public List<Rail> repeatedRails;
 
-    void Start()
+
+    public override void Start()
     {
+        base.Start();
         DetectRails();
     }
+
 
     public void DetectRails()
     {
