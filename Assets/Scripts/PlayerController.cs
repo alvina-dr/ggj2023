@@ -143,13 +143,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (railAmount <= 0) return;
                 railAmount--;
-                GPCtrl.Instance.interactionMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
-                GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.blockTile);
+                GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
                 GPCtrl.Instance.UpdateRailList();
                 GPCtrl.Instance.UpdateAllRailState();
-                GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.interactionMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
+                GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
                 {
-                    GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.interactionMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
+                    GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
                 });
             }
             else if (currentTool == 1) //repeater
@@ -201,7 +200,6 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(GetSpecificRail(new Vector3Int(nextTile.x, -nextTile.y)).gameObject);
             GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
-            GPCtrl.Instance.interactionMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
             railAmount++;
             GPCtrl.Instance.UpdateRailList();
             GPCtrl.Instance.UpdateAllRailState();
@@ -285,7 +283,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < GPCtrl.Instance.railList.Count; i++)
         {
-            if (GPCtrl.Instance.interactionMap.WorldToCell(GPCtrl.Instance.railList[i].transform.position) == _tile)
+            if (GPCtrl.Instance.railMap.WorldToCell(GPCtrl.Instance.railList[i].transform.position) == _tile)
             {
                 return GPCtrl.Instance.railList[i];
             }
