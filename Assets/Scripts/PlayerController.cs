@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         if (playerMesh.transform.position != new Vector3(playerMove.transform.position.x, playerMesh.transform.position.y, playerMove.transform.position.z)) isMoving = true;
         else isMoving = false;
         playerTarget.transform.position = new Vector3(gridPosition.x + targetTilePosition.x, playerTarget.transform.position.y, gridPosition.y + targetTilePosition.y);
-        if (CheckHasActivatedRail(new Vector3Int(gridPosition.x, -gridPosition.y))) {
+        if (CheckHasActivatedRail(gridPosition)) {
             playerSpeed = playerFastSpeed;
         } else
         {
@@ -103,9 +103,9 @@ public class PlayerController : MonoBehaviour
     public void MoveTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (CheckTileHasRail(new Vector3Int(nextTile.x, -nextTile.y)))
+        if (CheckTileHasRail(nextTile))
         {
-            gridPosition = new Vector3Int(nextTile.x, nextTile.y);
+            gridPosition = nextTile;
             playerMove.transform.position = new Vector3(gridPosition.x, 0, gridPosition.y);
         }
     }
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
     public void InterractWithTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y))) //if there's something get it
+        if (CheckHasObjectType(nextTile)) //if there's something get it
         {
             GetTile(_direction);
         } else // if there's nothing build
@@ -137,18 +137,18 @@ public class PlayerController : MonoBehaviour
     public void BuildTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (!CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y)) && !CheckTileHasRail(new Vector3Int(nextTile.x, -nextTile.y)) && !CheckTileHasObstacle(new Vector3Int(nextTile.x, -nextTile.y))) //try to minus y
+        if (!CheckHasObjectType(nextTile) && !CheckTileHasRail(nextTile) && !CheckTileHasObstacle(nextTile)) //try to minus y
         {
             if (currentTool == 0) //rails
             {
                 if (railAmount <= 0) return;
                 railAmount--;
-                GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
+                GPCtrl.Instance.railMap.SetTile(nextTile, GPCtrl.Instance.tileBaseTools[currentTool]);
                 GPCtrl.Instance.UpdateRailList();
                 GPCtrl.Instance.UpdateAllRailState();
-                GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
+                GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == nextTile).transform.DOScale(1.2f, .3f).OnComplete(() =>
                 {
-                    GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
+                    GPCtrl.Instance.railList.Find(x => GPCtrl.Instance.railMap.WorldToCell(x.transform.position) == nextTile).transform.DOScale(1f, .3f);
                 });
             }
             else if (currentTool == 1) //repeater
@@ -156,12 +156,12 @@ public class PlayerController : MonoBehaviour
                 if (repeaterAmount <= 0) return;
                 repeaterAmount--;
                 GPCtrl.Instance.amplificateurUI.CounterTextUpdate(repeaterAmount);
-                GPCtrl.Instance.interactionMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), GPCtrl.Instance.tileBaseTools[currentTool]);
+                GPCtrl.Instance.interactionMap.SetTile(nextTile, GPCtrl.Instance.tileBaseTools[currentTool]);
                 GPCtrl.Instance.UpdateObjectList();
                 GPCtrl.Instance.UpdateAllRailState();
-                GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.interactionMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1.2f, .3f).OnComplete(() =>
+                GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.interactionMap.WorldToCell(x.transform.position) == nextTile).transform.DOScale(1.2f, .3f).OnComplete(() =>
                 {
-                    GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.interactionMap.WorldToCell(x.transform.position) == new Vector3Int(nextTile.x, -nextTile.y)).transform.DOScale(1f, .3f);
+                    GPCtrl.Instance.objectList.Find(x => GPCtrl.Instance.interactionMap.WorldToCell(x.transform.position) == nextTile).transform.DOScale(1f, .3f);
                 });
             }
         }
@@ -170,23 +170,23 @@ public class PlayerController : MonoBehaviour
     public void GetTile(Vector3Int _direction)
     {
         Vector3Int nextTile = gridPosition + _direction;
-        if (CheckHasObjectType(new Vector3Int(nextTile.x, -nextTile.y))) 
+        if (CheckHasObjectType(new Vector3Int(nextTile.x, nextTile.y))) 
         {
-            switch(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)).GetComponent<InteractableObject>().objectType)
+            switch(GetSpecificObject(nextTile).GetComponent<InteractableObject>().objectType)
             {
                 case InteractableObject.ObjectType.Rail:
                     break;
                 case InteractableObject.ObjectType.Repeater:
-                    Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)).gameObject);
-                    GPCtrl.Instance.interactionMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+                    Destroy(GetSpecificObject(nextTile).gameObject);
+                    GPCtrl.Instance.interactionMap.SetTile(nextTile, null);
                     repeaterAmount++;
                     GPCtrl.Instance.amplificateurUI.CounterTextUpdate(repeaterAmount);
                     GPCtrl.Instance.UpdateObjectList();
                     GPCtrl.Instance.UpdateAllRailState();
                     break;
                 case InteractableObject.ObjectType.Crystal:
-                    Destroy(GetSpecificObject(new Vector3Int(nextTile.x, -nextTile.y)));
-                    GPCtrl.Instance.interactionMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+                    Destroy(GetSpecificObject(nextTile));
+                    GPCtrl.Instance.interactionMap.SetTile(nextTile, null);
                     AddEnergy(30);
                     GPCtrl.Instance.UpdateObjectList();
                     break;
@@ -196,10 +196,10 @@ public class PlayerController : MonoBehaviour
                     GPCtrl.Instance.WinGame();
                     break;
             }
-        } else if (CheckTileHasRail(new Vector3Int(nextTile.x, -nextTile.y)))
+        } else if (CheckTileHasRail(nextTile))
         {
-            Destroy(GetSpecificRail(new Vector3Int(nextTile.x, -nextTile.y)).gameObject);
-            GPCtrl.Instance.railMap.SetTile(new Vector3Int(nextTile.x, -nextTile.y), null);
+            Destroy(GetSpecificRail(nextTile).gameObject);
+            GPCtrl.Instance.railMap.SetTile(nextTile, null);
             railAmount++;
             GPCtrl.Instance.UpdateRailList();
             GPCtrl.Instance.UpdateAllRailState();
